@@ -10,10 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-
-
-
-
 # so that we can reproduce the data later
 np.random.seed(42)
 
@@ -89,12 +85,14 @@ class KMeans:
         self.X = X
         # number of samples and features
         self.n_samples, self.n_features = X.shape
+        print("SAMPLES:", self.n_samples, self.n_features)
 
         # initialize the centroids
         # to randomly pick some samples
         # it will pick a random choice between 0 and number of samples
         # In KMeans algorithm initially, random samples are made centroids and gradually optimization is done and new centroids selected
         random_sample_indices = np.random.choice(self.n_samples, self.K, replace=False) # this will be an array of size self.K
+        print("RANDOM SAMPLE INDICES = ",random_sample_indices)
         self.centroids = [self.X[i] for i in random_sample_indices]
 
         # optimization 
@@ -115,7 +113,6 @@ class KMeans:
                 # we can end the clustering algorithm now
                 break
 
-
         # return cluster_labels
         return self._get_cluster_labels(self.clusters)
 
@@ -125,22 +122,23 @@ class KMeans:
         for i,index in enumerate(self.clusters):
             # .T is for the transpose of the array
             point = self.X[index].T
+            print("POINT = ",point)
+            print()
             # to plot all the points in different colors for different clusters
             x.scatter(*point)
         # showing the centroids as markers to differentiate between them and normal data points 
         for point in self.centroids:
             x.scatter(*point, marker="x",color="black",linewidth=2)    
-        #plt.show()
+        plt.show()
         plt.title("K-Means Clustering Graph by Yukti Khurana: "+"Plot Number - "+str(KMeans.num_plots))
         plt.ylabel('Y-Position')
         plt.xlabel('X-Position')
         now = datetime.now()
         dt_string = now.strftime("%m%Y%H%M%S")
-        name = str(dt_string)+" Plot Number - "+str(KMeans.num_plots)+".png"
-        
-        plt.show(block=False)
+        name = str(dt_string)+" Plot Number - "+str(KMeans.num_plots)+".png"        
+        #plt.show(block=False)
         plt.savefig("PlotImages/"+name)
-        plt.pause(3)
+        #plt.pause(3)
         plt.close()
         
         
